@@ -90,9 +90,10 @@ Popup = (function() {
   };
 
   Popup.prototype.close = function() {
-    var options, props;
+    var height, options, props;
+    height = -this.current.outerHeight() - 30 - this.vh;
     props = {
-      marginTop: (-this.current.outerHeight()(-30 - this.vh)) + "px"
+      marginTop: height + "px"
     };
     options = {
       duration: 500
