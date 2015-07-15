@@ -8,7 +8,7 @@ class Popup
 
     console.log 'init'
     @lightbox = $ '.popup__lightbox'
-    $('.popup__close').on 'click', @close
+    $('.popup__close, .popup__submit_close').on 'click', @close
     $('.popup__input').on 'change', @fix
 
     @widget.on 'submit', @showSuccess

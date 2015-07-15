@@ -37,10 +37,18 @@
     box-sizing border-box
     cursor pointer
     text-shadow 0 1px $yellow-light
-    font-size 24px
+    font-size 27px
     line-height 56px
     text-transform uppercase
-    font-family 'Din Condensed', sans-serif
+    font-family 'PF Din Bold'
+    &_close
+      display block
+      width auto
+      box-shadow 0 3px 0 0 $yellow-dark
+      margin 0 0 0 40px
+      padding 0 40px
+    &:hover
+      background linear-gradient(to bottom, rgba(255,191,0,1) 0%, rgba(255,254,0,1) 100%);
 
   &__field
     width calc((100% - 255px)/2)
@@ -79,6 +87,7 @@
     box-sizing border-box
     &:focus
       border-color $yellow
+      box-shadow 0 0 0 1px $yellow, inset 0 0 2px 0 rgba($black, .25)
     &[data-changed] + .popup__label
     &:focus + .popup__label
       margin-top -47px
@@ -155,12 +164,13 @@
     right 0
     background rgba($white, .75)
   &__close
+    z-index 1002
     padding 0
-    margin 0
+    margin -10px 0 0 0
     border-style none
     position absolute
-    left 100%
-    bottom 100%
+    right 0
+    top 0
     width 24px
     height 24px
     border-radius 100%
@@ -181,8 +191,6 @@
   html body .popup
     &__subscribe
       margin 20px 40px 0 280px
-    &__submit
-      font-size 14px
     &__field,
     &__field:last-child
       display block
