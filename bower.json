@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "modernizr": "~2.8.3",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "velocity": "~1.2.2"
   }
 }

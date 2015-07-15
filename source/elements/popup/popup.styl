@@ -8,10 +8,11 @@
   transform translateY(-50%)
   background-color $white
   max-width 1120px
-  margin auto
+  margin -100vh auto 0
   z-index 1001
   box-shadow 0 0 25px 0 rgba($black, .25)
   font-family Arial, Helvetica, sans-serif
+
 
   &__subscribe
     position relative
@@ -39,7 +40,7 @@
     font-size 24px
     line-height 56px
     text-transform uppercase
-    font-family 'Din Condensed'
+    font-family 'Din Condensed', sans-serif
 
   &__field
     width calc((100% - 255px)/2)
@@ -78,6 +79,7 @@
     box-sizing border-box
     &:focus
       border-color $yellow
+    &[data-changed] + .popup__label
     &:focus + .popup__label
       margin-top -47px
 
@@ -144,6 +146,7 @@
     background $green url('../images/popup-bg.jpg') 525px 100% no-repeat
     position relative
   &__lightbox
+    display none
     z-index 1000
     position fixed
     top 0
@@ -174,6 +177,27 @@
     &__feature
       width 50%
 
+@media (max-width: 960px)
+  html body .popup
+    &__subscribe
+      margin 20px 40px 0 280px
+    &__submit
+      font-size 14px
+    &__field,
+    &__field:last-child
+      display block
+      float none
+      width auto
+      padding 0
+      margin 0 0 20px
+    &__input:focus + .popup__label
+      margin-top 0
+    &__label
+      top 0
+      bottom 0
+      left -260px
+      margin-top 0
+
 @media (max-width: 900px)
   html body .popup
     &__header
@@ -186,6 +210,20 @@
 
 @media (max-width: 700px)
   html body .popup
+    &__field
+      margin 0 0 20px
+    &__subscribe
+      margin 20px 40px 0
+    &__input
+      position relative
+      top 56px
+    &__label
+      position relative
+      line-height 56px
+      left auto
+      bottom 56px
+      right auto
+      top auto
     &__feature
       width auto
       display block
