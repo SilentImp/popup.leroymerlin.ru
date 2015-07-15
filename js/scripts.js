@@ -37,11 +37,12 @@ Popup = (function() {
     var email, email_input, email_regex, error, name, name_input;
     event.preventDefault();
     error = false;
-    email_regex = /^(([^<>()[]\.,;:s@"]+(.[^<>()[]\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/igm;
+    email_regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     email_input = this.form.find('.popup__input_email');
     email = email_input.val().trim();
     name_input = this.form.find('.popup__input_name');
     name = name_input.val().trim();
+    console.log(email.length);
     if (email.length === 0) {
       error = true;
       email_input.addClass('popup__input_error');
@@ -52,10 +53,12 @@ Popup = (function() {
     } else {
       name_input.removeClass('popup__input_error');
     }
-    if (email_regex.test(email) === false) {
+    if (!email_regex.test(email)) {
       error = true;
       email_input.addClass('popup__input_error');
+      console.log('error set');
     } else {
+      console.log('error removed');
       email_input.removeClass('popup__input_error');
     }
     if (error) {
