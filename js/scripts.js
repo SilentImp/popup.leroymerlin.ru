@@ -13,11 +13,14 @@ Popup = (function() {
       return;
     }
     this.resize();
+    this.form = this.widget.find('form.popup__subscribe');
+    this.form.attr('novalidate', 'novalidate');
+    this.form.on('submit', this.showSuccess);
     this.success = $('.popup.popup_success');
     this.lightbox = $('.popup__lightbox');
     $('.popup__close, .popup__submit_close').on('click', this.close);
     $('.popup__input').on('change', this.fix);
-    this.widget.on('submit', this.showSuccess);
+    $(window).on('resize', this.resize);
   }
 
   Popup.prototype.resize = function(event) {
@@ -30,33 +33,62 @@ Popup = (function() {
   };
 
   Popup.prototype.showSuccess = function(event) {
-    var options, options_form, props, props_success;
+    var email, email_input, email_regex, error, name, name_input;
     event.preventDefault();
-    props = {
-      marginTop: -this.widget.outerHeight() - 30 - this.vh
-    };
-    props_success = {
-      marginTop: '0'
-    };
-    options = {
-      duration: 500
-    };
-    options_form = {
-      duration: 500,
-      complete: (function(_this) {
-        return function() {
-          return _this.current = _this.success;
+    error = false;
+    email_regex = new RegExp("^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$");
+    email_input = this.form.find('.popup__input_email');
+    email = email_input.val().trim();
+    name_input = this.form.find('.popup__input_name');
+    name = name_input.val().trim();
+    if (email.length === 0) {
+      error = true;
+      email_input.addClass('popup__input_error');
+    }
+    if (name.length < 2) {
+      error = true;
+      name_input.addClass('popup__input_error');
+    } else {
+      name_input.removeClass('popup__input_error');
+    }
+    if (email_regex.test(email) === false) {
+      error = true;
+      email_input.addClass('popup__input_error');
+    } else {
+      email_input.removeClass('popup__input_error');
+    }
+    if (error) {
+      return;
+    }
+    return $.post(this.form.attr('action'), this.form.serialize(), (function(_this) {
+      return function() {
+        var options, options_form, props, props_success;
+        _this.form.get(0).reset();
+        props = {
+          marginTop: (-_this.widget.outerHeight()(-30 - _this.vh)) + "px"
         };
-      })(this)
-    };
-    this.widget.velocity("stop").velocity(props, options);
-    return this.success.velocity("stop").velocity(props_success, options_form);
+        props_success = {
+          marginTop: '0'
+        };
+        options = {
+          duration: 500
+        };
+        options_form = {
+          duration: 500,
+          complete: function() {
+            return _this.current = _this.success;
+          }
+        };
+        _this.widget.velocity("stop").velocity(props, options);
+        return _this.success.velocity("stop").velocity(props_success, options_form);
+      };
+    })(this));
   };
 
   Popup.prototype.close = function() {
     var options, props;
     props = {
-      marginTop: '-200vh'
+      marginTop: (-this.current.outerHeight()(-30 - this.vh)) + "px"
     };
     options = {
       duration: 500
