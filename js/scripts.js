@@ -37,7 +37,7 @@ Popup = (function() {
     var email, email_input, email_regex, error, name, name_input;
     event.preventDefault();
     error = false;
-    email_regex = new RegExp("^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$");
+    email_regex = /^(([^<>()[]\.,;:s@"]+(.[^<>()[]\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/igm;
     email_input = this.form.find('.popup__input_email');
     email = email_input.val().trim();
     name_input = this.form.find('.popup__input_name');
