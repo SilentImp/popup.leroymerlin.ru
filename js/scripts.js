@@ -6,6 +6,7 @@ Popup = (function() {
     this.fix = bind(this.fix, this);
     this.open = bind(this.open, this);
     this.close = bind(this.close, this);
+    this.onDataSend = bind(this.onDataSend, this);
     this.showSuccess = bind(this.showSuccess, this);
     this.resize = bind(this.resize, this);
     this.widget = $('.popup.popup_form');
@@ -60,29 +61,32 @@ Popup = (function() {
     if (error) {
       return;
     }
-    return $.post(this.form.attr('action'), this.form.serialize(), (function(_this) {
-      return function() {
-        var options, options_form, props, props_success;
-        _this.form.get(0).reset();
-        props = {
-          marginTop: (-_this.widget.outerHeight()(-30 - _this.vh)) + "px"
+    return $.post(this.form.attr('action'), this.form.serialize()).complete(this.onDataSend);
+  };
+
+  Popup.prototype.onDataSend = function() {
+    var height, options, options_form, props, props_success;
+    this.form.get(0).reset();
+    height = -this.widget.outerHeight() - 30 - this.vh;
+    props = {
+      marginTop: height + "px"
+    };
+    props_success = {
+      marginTop: '0'
+    };
+    options = {
+      duration: 500
+    };
+    options_form = {
+      duration: 500,
+      complete: (function(_this) {
+        return function() {
+          return _this.current = _this.success;
         };
-        props_success = {
-          marginTop: '0'
-        };
-        options = {
-          duration: 500
-        };
-        options_form = {
-          duration: 500,
-          complete: function() {
-            return _this.current = _this.success;
-          }
-        };
-        _this.widget.velocity("stop").velocity(props, options);
-        return _this.success.velocity("stop").velocity(props_success, options_form);
-      };
-    })(this));
+      })(this)
+    };
+    this.widget.velocity("stop").velocity(props, options);
+    return this.success.velocity("stop").velocity(props_success, options_form);
   };
 
   Popup.prototype.close = function() {
