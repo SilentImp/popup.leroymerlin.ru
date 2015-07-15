@@ -7,23 +7,33 @@ Popup = (function() {
     this.open = bind(this.open, this);
     this.close = bind(this.close, this);
     this.showSuccess = bind(this.showSuccess, this);
+    this.resize = bind(this.resize, this);
     this.widget = $('.popup.popup_form');
     if (this.widget.length === 0) {
       return;
     }
+    this.resize();
     this.success = $('.popup.popup_success');
-    console.log('init');
     this.lightbox = $('.popup__lightbox');
     $('.popup__close, .popup__submit_close').on('click', this.close);
     $('.popup__input').on('change', this.fix);
     this.widget.on('submit', this.showSuccess);
   }
 
+  Popup.prototype.resize = function(event) {
+    this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    if (this.widget.outerHeight() > this.vh) {
+      return this.widget.addClass('popup_scrolable');
+    } else {
+      return this.widget.removeClass('popup_scrolable');
+    }
+  };
+
   Popup.prototype.showSuccess = function(event) {
     var options, options_form, props, props_success;
     event.preventDefault();
     props = {
-      marginTop: '-100vh'
+      marginTop: -this.widget.outerHeight() - 30 - this.vh
     };
     props_success = {
       marginTop: '0'
@@ -46,7 +56,7 @@ Popup = (function() {
   Popup.prototype.close = function() {
     var options, props;
     props = {
-      marginTop: '-100vh'
+      marginTop: '-200vh'
     };
     options = {
       duration: 500
