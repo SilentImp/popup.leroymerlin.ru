@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="css/styles.css"/>
   </head>
   <body>
-    <div class="popup">
+    <div class="popup popup_success">
+      <button type="button" class="popup__close"></button>
+      <header class="popup__header">
+        <h2 class="popup__title">спасибо! вы успешно подписались.</h2>
+      </header>
+    </div>
+    <div class="popup popup_form">
       <button type="button" class="popup__close"></button>
       <header class="popup__header">
         <h2 class="popup__title">Уникальные возможности для экономии и супер советы в вашем почтовом ящике</h2>
@@ -31,5 +37,9 @@
       </ul>
     </div>
     <div class="popup__lightbox"></div>
+    <script src="js/modernizr/modernizr.js"></script>
+    <script src="js/jquery/dist/jquery.min.js"></script>
+    <script src="js/velocity/velocity.min.js"></script>
+    <script src="js/scripts.js" async="async" defer="defer"></script>
   </body>
 </html>
