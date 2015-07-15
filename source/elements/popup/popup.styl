@@ -19,6 +19,7 @@
     top 30px
     transform none
     border-bottom 30px solid rgba($black, 0)
+    box-shadow none
 
   &__subscribe
     position relative
@@ -95,6 +96,14 @@
     &[data-changed] + .popup__label
     &:focus + .popup__label
       margin-top -47px
+
+    &_error:focus,
+    &_error
+      border-color $red
+      & + .popup__label
+        color $red
+      &:focus
+        box-shadow 0 0 0 1px $red, inset 0 0 2px 0 rgba($black, .25)
 
   &__feature
     float left
@@ -206,6 +215,8 @@
       margin 0 0 20px
     &__input:focus + .popup__label
       margin-top 0
+    &__input[data-changed] + .popup__label,
+    &__input:focus + .popup__label,
     &__label
       top 0
       bottom 0

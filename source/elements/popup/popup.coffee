@@ -6,11 +6,16 @@ class Popup
 
     @resize()
 
+    @form = @widget.find 'form.popup__subscribe'
+    @form.attr 'novalidate', 'novalidate'
+    @form.on 'submit', @showSuccess
+
     @success = $ '.popup.popup_success'
     @lightbox = $ '.popup__lightbox'
     $('.popup__close, .popup__submit_close').on 'click', @close
     $('.popup__input').on 'change', @fix
-    @widget.on 'submit', @showSuccess
+
+    $(window).on 'resize', @resize
 
   resize: (event)=>
     @vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
@@ -19,25 +24,54 @@ class Popup
     else
       @widget.removeClass 'popup_scrolable'
 
-    # if Modernizr.mq('(max-width: 500px)')
-    #   @widget.get(0).removeAttr()
-    #   @success.get(0).removeAttr()
-
   showSuccess: (event)=>
     event.preventDefault()
-    props =
-      marginTop: (-@widget.outerHeight() -30 -@vh) + "px"
-    props_success =
-      marginTop: '0'
-    options =
-      duration: 500
-    options_form =
-      duration: 500
-      complete: ()=>
-        @current = @success
 
-    @widget.velocity("stop").velocity(props, options)
-    @success.velocity("stop").velocity(props_success, options_form)
+    # TODO Отправка данных на сервер
+
+    error = false
+
+    email_regex = new RegExp "^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"
+    email_input = @form.find '.popup__input_email'
+    email = email_input.val().trim()
+
+    name_input = @form.find '.popup__input_name'
+    name = name_input.val().trim()
+
+    if email.length == 0
+      error = true
+      email_input.addClass 'popup__input_error'
+
+    if name.length < 2
+      error = true
+      name_input.addClass 'popup__input_error'
+    else
+      name_input.removeClass 'popup__input_error'
+
+    if email_regex.test(email) == false
+      error = true
+      email_input.addClass 'popup__input_error'
+    else
+      email_input.removeClass 'popup__input_error'
+
+    if error
+      return
+
+    $.post @form.attr('action'), @form.serialize(), =>
+      @form.get(0).reset()
+      props =
+        marginTop: (-@widget.outerHeight() -30 -@vh) + "px"
+      props_success =
+        marginTop: '0'
+      options =
+        duration: 500
+      options_form =
+        duration: 500
+        complete: ()=>
+          @current = @success
+
+      @widget.velocity("stop").velocity(props, options)
+      @success.velocity("stop").velocity(props_success, options_form)
 
 
   close: =>
