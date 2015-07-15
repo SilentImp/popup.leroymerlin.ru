@@ -14,7 +14,7 @@ Popup = (function() {
     this.success = $('.popup.popup_success');
     console.log('init');
     this.lightbox = $('.popup__lightbox');
-    $('.popup__close').on('click', this.close);
+    $('.popup__close, .popup__submit_close').on('click', this.close);
     $('.popup__input').on('change', this.fix);
     this.widget.on('submit', this.showSuccess);
   }
