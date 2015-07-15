@@ -8,17 +8,3 @@
     font-weight: normal;
     font-style: normal;
 }
-
-
-
-@font-face {
-    font-family: 'Din Condensed C';
-    src: url('../fonts/dincondensedc-webfont.eot');
-    src: url('../fonts/dincondensedc-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dincondensedc-webfont.woff2') format('woff2'),
-         url('../fonts/dincondensedc-webfont.woff') format('woff'),
-         url('../fonts/dincondensedc-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-
-}
