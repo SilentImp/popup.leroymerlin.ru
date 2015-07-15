@@ -4,19 +4,29 @@ class Popup
     if @widget.length == 0
       return
 
-    @success = $ '.popup.popup_success'
+    @resize()
 
-    console.log 'init'
+    @success = $ '.popup.popup_success'
     @lightbox = $ '.popup__lightbox'
     $('.popup__close, .popup__submit_close').on 'click', @close
     $('.popup__input').on 'change', @fix
-
     @widget.on 'submit', @showSuccess
+
+  resize: (event)=>
+    @vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+    if @widget.outerHeight() > @vh
+      @widget.addClass 'popup_scrolable'
+    else
+      @widget.removeClass 'popup_scrolable'
+
+    # if Modernizr.mq('(max-width: 500px)')
+    #   @widget.get(0).removeAttr()
+    #   @success.get(0).removeAttr()
 
   showSuccess: (event)=>
     event.preventDefault()
     props =
-      marginTop: '-100vh'
+      marginTop: (-@widget.outerHeight() -30 -@vh) + "px"
     props_success =
       marginTop: '0'
     options =
@@ -32,7 +42,7 @@ class Popup
 
   close: =>
     props =
-      marginTop: '-100vh'
+      marginTop: (-@current.outerHeight() -30 -@vh) + "px"
 
     options =
       duration: 500
