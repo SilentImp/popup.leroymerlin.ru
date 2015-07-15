@@ -26,18 +26,16 @@ class Popup
 
   showSuccess: (event)=>
     event.preventDefault()
-
-    # TODO Отправка данных на сервер
-
     error = false
 
-    email_regex = new RegExp "^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"
+    email_regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     email_input = @form.find '.popup__input_email'
     email = email_input.val().trim()
 
     name_input = @form.find '.popup__input_name'
     name = name_input.val().trim()
 
+    console.log email.length
     if email.length == 0
       error = true
       email_input.addClass 'popup__input_error'
@@ -48,35 +46,41 @@ class Popup
     else
       name_input.removeClass 'popup__input_error'
 
-    if email_regex.test(email) == false
+    if !email_regex.test(email)
       error = true
       email_input.addClass 'popup__input_error'
+      console.log 'error set'
     else
+      console.log 'error removed'
       email_input.removeClass 'popup__input_error'
 
     if error
       return
 
-    $.post @form.attr('action'), @form.serialize(), =>
-      @form.get(0).reset()
-      props =
-        marginTop: (-@widget.outerHeight() -30 -@vh) + "px"
-      props_success =
-        marginTop: '0'
-      options =
-        duration: 500
-      options_form =
-        duration: 500
-        complete: ()=>
-          @current = @success
+    $.post(@form.attr('action'), @form.serialize()).complete @onDataSend
 
-      @widget.velocity("stop").velocity(props, options)
-      @success.velocity("stop").velocity(props_success, options_form)
+  onDataSend: =>
+    @form.get(0).reset()
+    height = - @widget.outerHeight() - 30 - @vh
+    props =
+      marginTop: height + "px"
+    props_success =
+      marginTop: '0'
+    options =
+      duration: 500
+    options_form =
+      duration: 500
+      complete: ()=>
+        @current = @success
+
+    @widget.velocity("stop").velocity(props, options)
+    @success.velocity("stop").velocity(props_success, options_form)
 
 
   close: =>
+    height = - @current.outerHeight() - 30 - @vh
     props =
-      marginTop: (-@current.outerHeight() -30 -@vh) + "px"
+      marginTop: height + "px"
 
     options =
       duration: 500
