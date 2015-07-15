@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Попап | Leroy Merlin</title>
+    <link rel="stylesheet" href="css/styles.css"/>
+  </head>
+  <body>
+    <div class="popup">
+      <button type="button" class="popup__close"></button>
+      <header class="popup__header">
+        <h2 class="popup__title">Уникальные возможности для экономии и супер советы в вашем почтовом ящике</h2>
+        <p class="popup__disclaimer"> <a href="#">Соглашаясь на подписку, я даю согласие на обработку персональных данных</a></p>
+      </header>
+      <form action="/subscribe/" method="post" class="popup__subscribe">
+        <label class="popup__field">
+          <input type="email" name="email" value="" required="required" class="popup__input"/><span class="popup__label">Ваш email</span>
+        </label>
+        <label class="popup__field">
+          <input type="text" name="name" value="" required="required" class="popup__input"/><span class="popup__label">Как к вам обращаться?</span>
+        </label>
+        <div class="popup__field">
+          <button type="submit" class="popup__submit">Подписаться!</button>
+        </div>
+      </form>
+      <ul class="popup__features">
+        <li class="popup__feature popup__feature_icon_eco">Разумная экономия</li>
+        <li class="popup__feature popup__feature_icon_video">Видеосоветы</li>
+        <li class="popup__feature popup__feature_icon_article">Полезные статьи</li>
+        <li class="popup__feature popup__feature_icon_news">Новинки асортимента</li>
+      </ul>
+    </div>
+    <div class="popup__lightbox"></div>
+  </body>
+</html>
