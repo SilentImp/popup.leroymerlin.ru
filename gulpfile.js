@@ -85,7 +85,7 @@ gulp.task('js', function() {
 
 gulp.task('css', function() {
   var processors = [
-    autoprefixer({browsers: ['last 2 version']})
+    autoprefixer({browsers: ['last 2 version', 'IE 8', 'IE 9', 'IE 10']})
     ];
   return gulp.src([dirs.source.stylus, dirs.source.css])
     .pipe(plumber())

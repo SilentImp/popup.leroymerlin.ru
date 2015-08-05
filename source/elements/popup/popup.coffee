@@ -4,6 +4,8 @@ class Popup
     if @widget.length == 0
       return
 
+    @transforms = $('html').hasClass('no-csstransforms')
+
     @resize()
 
     @form = @widget.find 'form.popup__subscribe'
@@ -35,7 +37,6 @@ class Popup
     name_input = @form.find '.popup__input_name'
     name = name_input.val().trim()
 
-    console.log email.length
     if email.length == 0
       error = true
       email_input.addClass 'popup__input_error'
@@ -49,9 +50,8 @@ class Popup
     if !email_regex.test(email)
       error = true
       email_input.addClass 'popup__input_error'
-      console.log 'error set'
+
     else
-      console.log 'error removed'
       email_input.removeClass 'popup__input_error'
 
     if error
@@ -61,11 +61,15 @@ class Popup
 
   onDataSend: =>
     @form.get(0).reset()
+    mt = "0px"
+    if @transforms == true
+      mt = -(@widget.outerHeight()/2) + "px"
+
     height = - @widget.outerHeight() - 30 - @vh
     props =
       marginTop: height + "px"
     props_success =
-      marginTop: '0'
+      marginTop: mt
     options =
       duration: 500
     options_form =
@@ -89,8 +93,11 @@ class Popup
     @lightbox.velocity("stop").velocity("fadeOut", options)
 
   open: =>
+    mt = "0px"
+    if @transforms == true
+      mt = -(@widget.outerHeight()/2) + "px"
     props =
-      marginTop: 0
+      marginTop: mt
     options =
       duration: 500
 

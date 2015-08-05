@@ -9,7 +9,7 @@
   background-color $white
   background-clip padding-box
   max-width 1120px
-  margin -100vh auto 0
+  margin -100% auto 0
   z-index 1001
   box-shadow 0 0 25px 0 rgba($black, .25)
   font-family Arial, Helvetica, sans-serif
@@ -289,3 +289,42 @@
     &__title
       font-size 12px
       line-height 16px
+
+
+html.no-cssgradients body .popup
+    &__submit
+        background url("../images/grad.png") 0 0 repeat-x
+        &:hover
+            background-position 0px -56px
+
+html.no-svg body .popup
+  &__close
+    background-color transparent
+    background-image url("../images/close-round.png")
+  &__feature
+    &_icon
+      &_eco
+        background-image url("../images/feature-1.png")
+      &_video
+        background-image url("../images/feature-2.png")
+      &_article
+        background-image url("../images/feature-3.png")
+      &_news
+        background-image url("../images/feature-4.png")
+
+@css {
+    html.no-opacity body .popup__lightbox b{
+        display:block;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        margin: 0;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=75);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=75)";
+        }
+    }
