@@ -13,6 +13,7 @@ Popup = (function() {
     if (this.widget.length === 0) {
       return;
     }
+    this.transforms = $('html').hasClass('no-csstransforms');
     this.resize();
     this.form = this.widget.find('form.popup__subscribe');
     this.form.attr('novalidate', 'novalidate');
@@ -42,7 +43,6 @@ Popup = (function() {
     email = email_input.val().trim();
     name_input = this.form.find('.popup__input_name');
     name = name_input.val().trim();
-    console.log(email.length);
     if (email.length === 0) {
       error = true;
       email_input.addClass('popup__input_error');
@@ -56,9 +56,7 @@ Popup = (function() {
     if (!email_regex.test(email)) {
       error = true;
       email_input.addClass('popup__input_error');
-      console.log('error set');
     } else {
-      console.log('error removed');
       email_input.removeClass('popup__input_error');
     }
     if (error) {
@@ -68,14 +66,18 @@ Popup = (function() {
   };
 
   Popup.prototype.onDataSend = function() {
-    var height, options, options_form, props, props_success;
+    var height, mt, options, options_form, props, props_success;
     this.form.get(0).reset();
+    mt = "0px";
+    if (this.transforms === true) {
+      mt = -(this.widget.outerHeight() / 2) + "px";
+    }
     height = -this.widget.outerHeight() - 30 - this.vh;
     props = {
       marginTop: height + "px"
     };
     props_success = {
-      marginTop: '0'
+      marginTop: mt
     };
     options = {
       duration: 500
@@ -106,9 +108,13 @@ Popup = (function() {
   };
 
   Popup.prototype.open = function() {
-    var options, options_form, props;
+    var mt, options, options_form, props;
+    mt = "0px";
+    if (this.transforms === true) {
+      mt = -(this.widget.outerHeight() / 2) + "px";
+    }
     props = {
-      marginTop: 0
+      marginTop: mt
     };
     options = {
       duration: 500
@@ -144,3 +150,11 @@ $(document).ready(function() {
   popup = new Popup;
   return popup.open();
 });
+
+if (!String.prototype.trim) {
+  (function() {
+    String.prototype.trim = function() {
+      return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    };
+  })();
+}
